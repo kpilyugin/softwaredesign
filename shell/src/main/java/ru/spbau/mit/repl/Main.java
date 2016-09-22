@@ -11,7 +11,7 @@ public class Main {
     try (Scanner scanner = new Scanner(System.in)) {
       while (scanner.hasNextLine()) {
         try {
-          shell.execute(scanner.nextLine(), System.in, System.out);
+          shell.execute(scanner.nextLine(), System.out);
         } catch (Exception e) {
           System.err.println("Failed to execute command: ");
           e.printStackTrace();

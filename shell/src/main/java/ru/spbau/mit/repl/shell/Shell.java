@@ -43,12 +43,12 @@ public class Shell {
    * Executes pipeline of commands from text line.
    *
    * @param line   text command to execute
-   * @param input  input stream for first command in pipeline
    * @param output output stream to print result of last command
    * @throws IOException
    */
-  public void execute(String line, InputStream input, PrintStream output) throws IOException {
+  public void execute(String line, PrintStream output) throws IOException {
     String[] pipeline = line.split("\\|");
+    InputStream input = System.in;
     for (int i = 0; i < pipeline.length - 1; i++) {
       ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
       PrintStream out = new PrintStream(byteOutput);
