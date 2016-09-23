@@ -2,6 +2,7 @@ package ru.spbau.mit.repl.shell;
 
 import ru.spbau.mit.repl.commands.Cat;
 import ru.spbau.mit.repl.commands.Command;
+import ru.spbau.mit.repl.commands.Grep;
 import ru.spbau.mit.repl.commands.Wc;
 import ru.spbau.mit.repl.util.Parser;
 
@@ -27,6 +28,7 @@ public class Shell {
     addCommand("pwd", ((args, in, out) -> out.println(System.getProperty("user.dir")))); // print current directory
     addCommand("cat", new Cat());
     addCommand("wc", new Wc());
+    addCommand("grep", new Grep());
   }
 
   /**
