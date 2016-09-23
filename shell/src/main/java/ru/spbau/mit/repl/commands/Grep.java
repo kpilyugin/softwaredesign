@@ -12,6 +12,14 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+/**
+ * The grep utility searches any given input files, selecting lines that
+ * match pattern.
+ * Available arguments:
+ *  -i: make pattern case insensitive
+ *  -w: search only for full words in a line
+ *  -A n: print n lines after every matching line
+ */
 public class Grep implements Command {
   private static final Options OPTIONS = new Options();
 
@@ -21,6 +29,11 @@ public class Grep implements Command {
     OPTIONS.addOption("A", true, "print n lines after matching");
   }
 
+  /**
+   * Evaluates command arguments using CommandLineParser, then executes
+   * command choosing right matching pattern depending on arguments.
+   * If no input files are given, reads from input stream.
+   */
   @Override
   public void execute(List<String> args, InputStream input, PrintStream output) throws IOException {
     CommandLineParser parser = new BasicParser();
@@ -33,16 +46,17 @@ public class Grep implements Command {
       Pattern pattern = Pattern.compile(regex, caseInsensitive ? Pattern.CASE_INSENSITIVE : 0);
 
       boolean fullWords = cmd.hasOption("w");
+      // choose testing predicate using option
       Predicate<String> predicate = fullWords ?
           s -> Arrays.stream(s.split(" ")).anyMatch(regex::equals) :
           s -> pattern.matcher(s).find();
 
       int numLinesAfter = cmd.hasOption("A") ? Integer.parseInt(cmd.getOptionValue("A")) : 0;
-      if (cmdArgs.length == 1) {
+      if (cmdArgs.length == 1) { // no files: read from given input stream
         executeGrep(predicate, input, output, numLinesAfter);
         return;
       }
-      for (int i = 1; i < cmdArgs.length; i++) {
+      for (int i = 1; i < cmdArgs.length; i++) {      // execute on all given files
         executeGrep(predicate, new FileInputStream(cmdArgs[i]), output, numLinesAfter);
       }
     } catch (ParseException e) {
