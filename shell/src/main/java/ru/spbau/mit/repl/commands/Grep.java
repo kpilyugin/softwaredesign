@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
  * The grep utility searches any given input files, selecting lines that
  * match pattern.
  * Available arguments:
- *  -i: make pattern case insensitive
- *  -w: search only for full words in a line
- *  -A n: print n lines after every matching line
+ * -i: make pattern case insensitive
+ * -w: search only for full words in a line
+ * -A n: print n lines after every matching line
  */
 public class Grep implements Command {
   private static final Options OPTIONS = new Options();

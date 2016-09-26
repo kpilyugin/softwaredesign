@@ -9,9 +9,9 @@ import java.util.Map;
 public class ShellVariables {
   private final Map<String, String> variables = new HashMap<>();
 
-
   /**
    * Adds variable to a map, called from assignment operation
+   *
    * @param name variable's name
    * @param value variable's value
    */
@@ -21,6 +21,7 @@ public class ShellVariables {
 
   /**
    * Substitutes all entries of all known variables of an argument
+   *
    * @param arg argument string
    * @return argument after substitution
    */

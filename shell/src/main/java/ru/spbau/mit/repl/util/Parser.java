@@ -18,8 +18,8 @@ public class Parser {
    * variable assignment operation, or external process.
    *
    * @param namedCommands a map of shell commands by name
-   * @param variables     shell environment variables to update from assignment command
-   * @param command       text command from input
+   * @param variables shell environment variables to update from assignment command
+   * @param command text command from input
    * @return parsed command
    */
   public static Command parseCommand(Map<String, Command> namedCommands, ShellVariables variables, String command) {
@@ -45,7 +45,7 @@ public class Parser {
    * regarded as single argument, variables are not substituted inside single quotes.
    *
    * @param variables shell environment to substitute variables
-   * @param line      text command to parse
+   * @param line text command to parse
    * @return list of arguments
    */
   public static List<String> parseArguments(ShellVariables variables, String line) {

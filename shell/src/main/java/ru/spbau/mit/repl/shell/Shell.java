@@ -34,7 +34,7 @@ public class Shell {
   /**
    * Adds custom command to this shell.
    *
-   * @param name    name of command
+   * @param name name of command
    * @param command object representing command to execute
    */
   public void addCommand(String name, Command command) {
@@ -44,7 +44,7 @@ public class Shell {
   /**
    * Executes pipeline of commands from text line.
    *
-   * @param line   text command to execute
+   * @param line text command to execute
    * @param output output stream to print result of last command
    * @throws IOException
    */
