@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Shell is a class for managing available commands, their execution in pipeline and
@@ -20,10 +21,9 @@ public class Shell {
   private final Map<String, Command> commands = new HashMap<>();
 
   public Shell() {
-    addCommand("echo", ((args, in, out) -> {  // print all arguments
-      args.forEach(arg -> out.print(arg + " "));
-      out.println();
-    }));
+    addCommand("echo", (args, in, out) -> {  // print all arguments
+      out.println(args.stream().collect(Collectors.joining(" ")));
+    });
     addCommand("exit", ((args, in, out) -> System.exit(0))); // exit shell
     addCommand("pwd", ((args, in, out) -> out.println(System.getProperty("user.dir")))); // print current directory
     addCommand("cat", new Cat());
@@ -54,11 +54,13 @@ public class Shell {
     for (int i = 0; i < pipeline.length - 1; i++) {
       ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
       PrintStream out = new PrintStream(byteOutput);
-      executeCommand(pipeline[i].trim(), input, out);
+      String command = variables.substitute(pipeline[i].trim());
+      executeCommand(command, input, out);
       out.close();
       input = new ByteArrayInputStream(byteOutput.toByteArray());
     }
-    executeCommand(pipeline[pipeline.length - 1].trim(), input, output);
+    String lastCommand = variables.substitute(pipeline[pipeline.length - 1].trim());
+    executeCommand(lastCommand, input, output);
   }
 
   private void executeCommand(String line, InputStream input, PrintStream output) throws IOException {

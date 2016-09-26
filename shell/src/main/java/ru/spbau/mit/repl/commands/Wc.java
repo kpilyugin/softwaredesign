@@ -36,6 +36,7 @@ public class Wc implements Command {
         numBytes += line.getBytes().length;
       }
     }
-    output.format("%d %d %d\n", numLines, numWords, numBytes);
+    output.format("%d %d %d", numLines, numWords, numBytes);
+    output.println();
   }
 }

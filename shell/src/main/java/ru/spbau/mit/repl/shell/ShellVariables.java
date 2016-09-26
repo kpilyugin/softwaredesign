@@ -27,7 +27,7 @@ public class ShellVariables {
    */
   public String substitute(String arg) {
     for (Map.Entry<String, String> entry : variables.entrySet()) {
-      arg = arg.replaceAll("\\$" + entry.getKey(), entry.getValue());
+      arg = arg.replace("$" + entry.getKey(), entry.getValue());
     }
     return arg;
   }

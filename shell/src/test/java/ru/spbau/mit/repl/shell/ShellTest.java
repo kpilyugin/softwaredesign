@@ -7,7 +7,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class ShellTest {
   @Rule
@@ -28,7 +31,7 @@ public class ShellTest {
     String content = "a b c d";
     FileUtils.writeStringToFile(tempFile, content);
     shell.execute("cat " + tempFile.getPath(), new PrintStream(out));
-    Assert.assertEquals(content + "\n", out.toString());
+    Assert.assertEquals(content, getResultWithoutNewline());
   }
 
   @Test
@@ -40,12 +43,23 @@ public class ShellTest {
     shell.execute(cmd, new PrintStream(out));
     int bytes = content.getBytes().length;
     int words = content.split(" ").length;
-    Assert.assertEquals("1 " + words + " " + bytes + "\n", out.toString());
+    Assert.assertEquals("1 " + words + " " + bytes, getResultWithoutNewline());
+  }
+
+  @Test
+  public void executeEchoPipeline() throws IOException {
+    shell.execute("x=echo | $x 1", new PrintStream(out));
+    Assert.assertEquals("1", getResultWithoutNewline());
   }
 
   @Test
   public void executePwd() throws IOException {
     shell.execute("pwd", new PrintStream(out));
-    Assert.assertEquals(System.getProperty("user.dir") + "\n", out.toString());
+    String result = getResultWithoutNewline();
+    Assert.assertEquals(System.getProperty("user.dir"), result);
+  }
+
+  private String getResultWithoutNewline() {
+    return out.toString().replaceAll(System.getProperty("line.separator"), "");
   }
 }
