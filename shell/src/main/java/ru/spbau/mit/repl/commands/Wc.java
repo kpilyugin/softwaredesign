@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *  The wc command displays the number of lines, words, and bytes contained
- *  in each input file, or input from previous command (if no file is specified)
+ * The wc command displays the number of lines, words, and bytes contained
+ * in each input file, or input from previous command (if no file is specified)
  */
 public class Wc implements Command {
 

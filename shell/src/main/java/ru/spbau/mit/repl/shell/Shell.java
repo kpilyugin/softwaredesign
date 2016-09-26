@@ -2,6 +2,7 @@ package ru.spbau.mit.repl.shell;
 
 import ru.spbau.mit.repl.commands.Cat;
 import ru.spbau.mit.repl.commands.Command;
+import ru.spbau.mit.repl.commands.Grep;
 import ru.spbau.mit.repl.commands.Wc;
 import ru.spbau.mit.repl.util.Parser;
 
@@ -27,12 +28,13 @@ public class Shell {
     addCommand("pwd", ((args, in, out) -> out.println(System.getProperty("user.dir")))); // print current directory
     addCommand("cat", new Cat());
     addCommand("wc", new Wc());
+    addCommand("grep", new Grep());
   }
 
   /**
    * Adds custom command to this shell.
    *
-   * @param name    name of command
+   * @param name name of command
    * @param command object representing command to execute
    */
   public void addCommand(String name, Command command) {
@@ -42,7 +44,7 @@ public class Shell {
   /**
    * Executes pipeline of commands from text line.
    *
-   * @param line   text command to execute
+   * @param line text command to execute
    * @param output output stream to print result of last command
    * @throws IOException
    */
