@@ -1,9 +1,6 @@
 package ru.spbau.mit.repl.shell;
 
-import ru.spbau.mit.repl.commands.Cat;
-import ru.spbau.mit.repl.commands.Command;
-import ru.spbau.mit.repl.commands.Grep;
-import ru.spbau.mit.repl.commands.Wc;
+import ru.spbau.mit.repl.commands.*;
 import ru.spbau.mit.repl.util.Parser;
 
 import java.io.*;
@@ -29,6 +26,8 @@ public class Shell {
     addCommand("cat", new Cat());
     addCommand("wc", new Wc());
     addCommand("grep", new Grep());
+    addCommand("cd", new Cd());
+    addCommand("ls", new Ls());
   }
 
   /**
