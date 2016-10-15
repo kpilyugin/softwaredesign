@@ -40,7 +40,6 @@ public class Cd implements Command {
             throw new FileNotFoundException();
         }
         System.setProperty("user.dir", location);
-
     }
 }
 

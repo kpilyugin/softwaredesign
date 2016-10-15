@@ -45,7 +45,7 @@ public class Ls implements Command {
             return;
         }
         for (File f : dir.listFiles()) {
-            out.print(f.toString() + " ");
+            out.print(f.getName() + " ");
         }
     }
 }
