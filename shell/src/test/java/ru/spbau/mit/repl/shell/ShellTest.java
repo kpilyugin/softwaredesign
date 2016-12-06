@@ -11,6 +11,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
 
 public class ShellTest {
   @Rule
@@ -61,5 +63,25 @@ public class ShellTest {
 
   private String getResultWithoutNewline() {
     return out.toString().replaceAll(System.getProperty("line.separator"), "");
+  }
+
+  @Test
+  public void executeLs() throws IOException {
+    System.setProperty("user.dir", tempFolder.getRoot().getAbsolutePath());
+    File file = tempFolder.newFile("file.txt");
+    File dir = tempFolder.newFolder("folder");
+    String res_file = "file : " + file.getName();
+    String res_dir = "dir  : " + dir.getName();
+    shell.execute("ls", new PrintStream(out));
+    List<String> lines = Arrays.asList(out.toString().split(System.getProperty("line.separator")));
+    Assert.assertEquals(2, lines.size());
+    Assert.assertTrue(lines.contains(res_file));
+    Assert.assertTrue(lines.contains(res_dir));
+  }
+
+  @Test
+  public void executeCd() throws IOException {
+    shell.execute("cd " + tempFolder.getRoot().getAbsolutePath(), new PrintStream(out));
+    Assert.assertEquals(tempFolder.getRoot().getAbsolutePath(), System.getProperty("user.dir"));
   }
 }
