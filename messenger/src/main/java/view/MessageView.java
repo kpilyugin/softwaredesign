@@ -9,6 +9,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import protocol.ChatMessage;
 
+/**
+ * Represents a view of single message.
+ */
 public class MessageView extends ListCell<ChatMessage> {
   @Override
   protected void updateItem(ChatMessage item, boolean empty) {

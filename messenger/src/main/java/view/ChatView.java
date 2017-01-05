@@ -13,6 +13,10 @@ import protocol.ChatMessage;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * Represents a view for {@link Chat}.
+ * Consists of a list view for chat history and text area for new message.
+ */
 public class ChatView extends Tab {
   private static final Logger LOGGER = Logger.getLogger(ChatView.class.getName());
 
@@ -41,7 +45,7 @@ public class ChatView extends Tab {
         }
       }
     });
-    textProperty().bind(chat.getPeerName());
+    textProperty().bind(chat.getFriendName());
     setContent(new VBox(messages, messageArea));
   }
 }

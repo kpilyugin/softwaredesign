@@ -12,6 +12,12 @@ import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 
+/**
+ * Simple tcp-ip socket server implementation.
+ * Listens to server socket at given port in separate thread, client connections
+ * are handled in thread pool.
+ * Each connection is used to receive a single message and closed after that.
+ */
 public class Server {
   private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
@@ -20,12 +26,20 @@ public class Server {
   @Setter
   private BiConsumer<InetAddress, ChatMessage> messageHandler;
 
+  /**
+   * Creates server socket at given port and starts main server loop which
+   * listens for this socket connections.
+   * @throws IOException if error occurred during socket creation
+   */
   public Server(int port) throws IOException {
     serverSocket = new ServerSocket(port);
     LOGGER.info("Started server at port " + port);
     executor.submit(this::runServerLoop);
   }
 
+  /**
+   * Accepts client connections and submits them to thread pool.
+   */
   private void runServerLoop() {
     while (!serverSocket.isClosed()) {
       try {
@@ -40,6 +54,9 @@ public class Server {
     }
   }
 
+  /**
+   * Receives single message from client socket and closes connection after receiving.
+   */
   private void processClient(Socket socket) {
     try {
       DataInputStream input = new DataInputStream(socket.getInputStream());
@@ -55,6 +72,9 @@ public class Server {
     }
   }
 
+  /**
+   * Closes server socket.
+   */
   public void shutdown() {
     LOGGER.info("Shutdown server");
     try {

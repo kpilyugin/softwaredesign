@@ -20,8 +20,14 @@ import view.ChatView;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/**
+ * JavaFX application launcher.
+ * On start user is prompted to enter name and local port at which server should be started.
+ * Creates GUI views for editing username and creating new chats.
+ * Contains controller to bind chats from {@link Messenger} to their views.
+ */
 public class MessengerApp extends Application {
-  public static final int SPACING = 20;
+  private static final int SPACING = 20;
 
   private final Messenger messenger = new Messenger();
 
