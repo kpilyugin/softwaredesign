@@ -1,6 +1,7 @@
 package launcher;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -72,14 +73,16 @@ public class MessengerApp extends Application {
     messenger.getChats().addListener(new MapChangeListener<InetSocketAddress, Chat>() {
       @Override
       public void onChanged(Change<? extends InetSocketAddress, ? extends Chat> change) {
-        if (change.wasAdded()) {
-          ChatView chatView = new ChatView(change.getValueAdded());
-          chatView.setOnClosed(event -> messenger.getChats().remove(change.getKey()));
-          chatLayout.getTabs().add(chatView);
-        } else {
-          chatLayout.getTabs().removeIf(tab -> tab instanceof ChatView &&
-              ((ChatView) tab).getChat() == change.getValueRemoved());
-        }
+        Platform.runLater(() -> {
+          if (change.wasAdded()) {
+            ChatView chatView = new ChatView(change.getValueAdded());
+            chatView.setOnClosed(event -> messenger.getChats().remove(change.getKey()));
+            chatLayout.getTabs().add(chatView);
+          } else {
+            chatLayout.getTabs().removeIf(tab -> tab instanceof ChatView &&
+                ((ChatView) tab).getChat() == change.getValueRemoved());
+          }
+        });
       }
     });
   }

@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -26,7 +27,13 @@ public class ChatView extends Tab {
   public ChatView(Chat chat) {
     this.chat = chat;
 
-    ListView<ChatMessage> messages = new ListView<>(chat.getMessages());
+    ListView<ChatMessage> messages = new ListView<>();
+    chat.getMessages().addListener((ListChangeListener<ChatMessage>) listener ->
+        Platform.runLater(() -> {
+          messages.getItems().clear();
+          messages.getItems().addAll(chat.getMessages());
+        })
+    );
     messages.setCellFactory(p -> new MessageView());
     TextArea messageArea = new TextArea();
     messageArea.setOnKeyPressed(event -> {

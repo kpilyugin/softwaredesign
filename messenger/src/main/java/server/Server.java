@@ -61,9 +61,9 @@ public class Server {
     try {
       DataInputStream input = new DataInputStream(socket.getInputStream());
       ChatMessage message = ChatProtocol.receiveMessage(input);
+      LOGGER.info("Received message from " + socket.getInetAddress());
       if (messageHandler != null) {
         messageHandler.accept(socket.getInetAddress(), message);
-        LOGGER.fine("Received message from " + socket.getInetAddress());
       }
       socket.close();
     } catch (IOException e) {

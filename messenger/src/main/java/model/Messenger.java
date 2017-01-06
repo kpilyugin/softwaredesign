@@ -1,6 +1,5 @@
 package model;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import lombok.Getter;
@@ -62,16 +61,14 @@ public class Messenger {
    * If no active chat is found, new one is created using sender address.
    */
   public void onMessageReceived(InetAddress inetAddress, ChatMessage message) {
-    Platform.runLater(() -> {
-      InetSocketAddress address = new InetSocketAddress(inetAddress, message.getServerPort());
-      LOGGER.info("Received message from " + message.getName());
-      Chat chat = chats.get(address);
-      if (chat == null) {
-        chat = new Chat(address, serverPort, userName);
-        chats.put(address, chat);
-      }
-      chat.addReceivedMessage(message);
-    });
+    InetSocketAddress address = new InetSocketAddress(inetAddress, message.getServerPort());
+    LOGGER.info("Received message from " + message.getName());
+    Chat chat = chats.get(address);
+    if (chat == null) {
+      chat = new Chat(address, serverPort, userName);
+      chats.put(address, chat);
+    }
+    chat.addReceivedMessage(message);
   }
 
   /**
