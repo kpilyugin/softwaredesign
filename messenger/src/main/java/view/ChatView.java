@@ -28,6 +28,7 @@ public class ChatView extends Tab {
     this.chat = chat;
 
     ListView<ChatMessage> messages = new ListView<>();
+    messages.getItems().addAll(chat.getMessages());
     chat.getMessages().addListener((ListChangeListener<ChatMessage>) listener ->
         Platform.runLater(() -> {
           messages.getItems().clear();
@@ -52,7 +53,8 @@ public class ChatView extends Tab {
         }
       }
     });
-    textProperty().bind(chat.getFriendName());
+    setText(chat.getFriendName().get());
+    chat.getFriendName().addListener(((observable, oldValue, newValue) -> Platform.runLater(() -> setText(newValue))));
     setContent(new VBox(messages, messageArea));
   }
 }

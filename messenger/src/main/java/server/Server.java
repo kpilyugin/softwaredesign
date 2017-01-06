@@ -77,6 +77,7 @@ public class Server {
    */
   public void shutdown() {
     LOGGER.info("Shutdown server");
+    executor.shutdownNow();
     try {
       serverSocket.close();
     } catch (IOException e) {

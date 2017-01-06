@@ -60,7 +60,7 @@ public class Messenger {
    * Handles received messages and passes them to corresponding chats.
    * If no active chat is found, new one is created using sender address.
    */
-  public void onMessageReceived(InetAddress inetAddress, ChatMessage message) {
+  public synchronized void onMessageReceived(InetAddress inetAddress, ChatMessage message) {
     InetSocketAddress address = new InetSocketAddress(inetAddress, message.getServerPort());
     LOGGER.info("Received message from " + message.getName());
     Chat chat = chats.get(address);
