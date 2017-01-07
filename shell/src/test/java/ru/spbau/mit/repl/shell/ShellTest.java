@@ -16,12 +16,10 @@ public class ShellTest {
   @Rule
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
-  private Shell shell;
   private ByteArrayOutputStream out;
 
   @Before
   public void setUp() {
-    shell = new Shell();
     out = new ByteArrayOutputStream();
   }
 
@@ -30,7 +28,7 @@ public class ShellTest {
     File tempFile = tempFolder.newFile("temp1.txt");
     String content = "a b c d";
     FileUtils.writeStringToFile(tempFile, content);
-    shell.execute("cat " + tempFile.getPath(), new PrintStream(out));
+    Shell.execute("cat " + tempFile.getPath(), new PrintStream(out));
     Assert.assertEquals(content, getResultWithoutNewline());
   }
 
@@ -40,7 +38,7 @@ public class ShellTest {
     String content = "a b";
     FileUtils.writeStringToFile(tempFile, content);
     String cmd = "fileName=\"" + tempFile.getPath() + "\" | cat $fileName | wc";
-    shell.execute(cmd, new PrintStream(out));
+    Shell.execute(cmd, new PrintStream(out));
     int bytes = content.getBytes().length;
     int words = content.split(" ").length;
     Assert.assertEquals("1 " + words + " " + bytes, getResultWithoutNewline());
@@ -48,13 +46,13 @@ public class ShellTest {
 
   @Test
   public void executeEchoPipeline() throws IOException {
-    shell.execute("x=echo | $x 1", new PrintStream(out));
+    Shell.execute("x=echo | $x 1", new PrintStream(out));
     Assert.assertEquals("1", getResultWithoutNewline());
   }
 
   @Test
   public void executePwd() throws IOException {
-    shell.execute("pwd", new PrintStream(out));
+    Shell.execute("pwd", new PrintStream(out));
     String result = getResultWithoutNewline();
     Assert.assertEquals(System.getProperty("user.dir"), result);
   }

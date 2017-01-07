@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 
 public class GrepTest {
 
-  private final Shell shell = new Shell();
   private final File file;
 
   public GrepTest() throws IOException {
@@ -55,8 +54,9 @@ public class GrepTest {
 
   private List<String> executeGrep(String cmd) throws IOException {
     File resultFile = File.createTempFile("result", null);
-    shell.execute(cmd + " " + file.getPath(), new PrintStream(resultFile));
+    Shell.execute(cmd + " " + file.getPath(), new PrintStream(resultFile));
     List<String> result = FileUtils.readLines(resultFile);
+    //noinspection ResultOfMethodCallIgnored
     resultFile.delete();
     return result;
   }

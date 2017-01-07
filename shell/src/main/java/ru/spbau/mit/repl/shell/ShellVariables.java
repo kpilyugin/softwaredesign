@@ -7,6 +7,12 @@ import java.util.Map;
  * Represents shell environmental variables
  */
 public class ShellVariables {
+  private static final ShellVariables INSTANCE = new ShellVariables();
+
+  public static ShellVariables getInstance() {
+    return INSTANCE;
+  }
+
   private final Map<String, String> variables = new HashMap<>();
 
   /**
@@ -30,5 +36,12 @@ public class ShellVariables {
       arg = arg.replace("$" + entry.getKey(), entry.getValue());
     }
     return arg;
+  }
+
+  /**
+   * Clears all variables in environment
+   */
+  public void clear() {
+    variables.clear();
   }
 }
